@@ -936,6 +936,42 @@ lbI.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
 lbI.addEventListener('pointerup',e=>{if(sx===null||list.length<2)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=sy=null;if(Math.abs(dx)>=40&&Math.abs(dx)>Math.abs(dy))show(idx+(dx<0?1:-1))});
 lbI.addEventListener('pointercancel',()=>{sx=sy=null});
 
+/* ---------- hidratación de Turso ---------- */
+(async()=>{
+  try{
+    const r=await fetch('/api/photos',{headers:{accept:'application/json'}});
+    if(!r.ok)return;
+    const data=await r.json();
+    if(!data||!data.ok||!Array.isArray(data.photos))return;
+    const seen=new Set($$('li[data-id]',grid).map(li=>li.dataset.id));
+    const activeBtn=$('.filters button[aria-pressed="true"]');
+    const active=activeBtn?activeBtn.dataset.f:'all';
+    const added=[];
+    data.photos.forEach(p=>{
+      if(!p||typeof p.id!=='string'||!p.id||seen.has(p.id))return;
+      if(typeof p.title!=='string'||!p.title.trim()||!CAT_LABEL[p.category])return;
+      if(typeof p.src!=='string'||(!/^data:image\//i.test(p.src)&&!/^https?:\/\//i.test(p.src)))return;
+      const li=document.createElement('li');
+      li.dataset.id=p.id;li.dataset.cat=p.category;li.dataset.t=p.title;
+      li.hidden=!(active==='all'||active===p.category);
+      const btn=document.createElement('button');
+      btn.type='button';btn.className='tile';btn.setAttribute('aria-label','Ampliar: '+p.title);
+      const img=document.createElement('img');
+      img.src=p.src;img.alt=typeof p.alt==='string'&&p.alt?p.alt:p.title;
+      img.loading='lazy';img.decoding='async';
+      if(Number.isFinite(p.width))img.width=p.width;
+      if(Number.isFinite(p.height))img.height=p.height;
+      const cap=document.createElement('span');
+      cap.className='t';cap.textContent=p.title;
+      btn.append(img,cap);li.append(btn);
+      seen.add(p.id);added.push(li);
+    });
+    if(!added.length)return;
+    grid.prepend(...added);
+    items.unshift(...added);
+  }catch(e){}
+})();
+
 /* ---------- video ---------- */
 let vURL=null;
 function videoURL(){

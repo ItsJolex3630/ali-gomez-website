@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root{
   --bg:#0b0a09;--bg2:#13110e;--bg3:#1b1815;
@@ -20,6 +21,7 @@
   --g:clamp(18px,4vw,56px);
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;padding-bottom:48px;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--bd);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
@@ -38,6 +40,13 @@ p{max-width:62ch}
 .top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .local-badge{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:99px;font:600 10px/1 var(--bd);letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
 .local-badge i{width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.local-badge[data-state="online"] i{background:#69c98a}
+.local-badge[data-state="syncing"] i{background:var(--acc)}
+.local-badge[data-state="offline"] i{background:var(--acc);opacity:.5}
+.btn[disabled],.del[disabled]{opacity:.55;cursor:progress;transform:none}
+.user-badge{display:inline-flex;align-items:center;gap:8px;min-height:36px;max-width:100%;padding:0 14px;border:1px solid rgba(212,154,85,.38);border-radius:99px;color:var(--acc);font:600 11px/1 var(--bd)}
+.user-badge i{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.user-badge span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid transparent;border-radius:2px;font:600 11px/1 var(--bd);letter-spacing:.11em;text-transform:uppercase;text-decoration:none;transition:background-color .2s,color .2s,border-color .2s,transform .16s var(--ease)}
 .btn:active{transform:scale(.98)}
 .btn-pri{background:var(--acc);color:#17120c}
@@ -103,6 +112,20 @@ p{max-width:62ch}
 .del:hover{border-color:var(--rec);color:var(--rec)}
 .del:active{transform:scale(.97)}
 .empty{max-width:none;margin:0;padding:28px;border:1px dashed var(--line);color:var(--mut);text-align:center}
+.gate{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:24px;overflow-y:auto;background:radial-gradient(60% 50% at 50% 0%,rgba(212,154,85,.14),transparent 70%),radial-gradient(45% 40% at 88% 100%,rgba(212,154,85,.07),transparent 70%),var(--bg)}
+.gate-card{position:relative;width:100%;max-width:440px;padding:clamp(28px,6vw,48px);border:1px solid var(--line);background:rgba(19,17,14,.94);text-align:center}
+.gate-card::before{content:'';position:absolute;top:0;left:50%;width:56px;height:2px;background:var(--acc);transform:translateX(-50%)}
+.gate-mark{display:grid;place-items:center;width:72px;height:72px;margin:0 auto 24px;border:1px solid rgba(212,154,85,.4);border-radius:50%;color:var(--acc)}
+.gate-mark svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.gate-card .eyebrow{margin:0 0 10px}
+.gate-card h2{font-size:clamp(32px,7vw,44px);margin:0 0 14px}
+.gate-card h2 span{color:var(--acc);font-style:italic}
+.gate-copy{max-width:34ch;margin:0 auto 26px;color:var(--mut);font-size:14px;line-height:1.6}
+.gate-btn{display:flex;justify-content:center;min-height:44px;max-width:100%}
+.gate-btn iframe,.gate-btn>div{max-width:100%}
+.gate-status{min-height:22px;margin:16px 0 0;font-size:13px;line-height:1.45;color:var(--mut)}
+.gate-status[data-type="error"]{color:#f0a89f}
+.gate-foot{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line);font:600 9px/1.5 var(--bd);letter-spacing:.16em;text-transform:uppercase;color:rgba(170,162,148,.85)}
 @media(max-width:900px){
   .editor{grid-template-columns:1fr}
   .side{position:static}
@@ -125,22 +148,38 @@ p{max-width:62ch}
 </style>
 </head>
 <body>
-<header class="top">
+<section class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-card">
+    <div class="gate-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="9.5" rx="1.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><circle cx="12" cy="15" r="1"/></svg>
+    </div>
+    <p class="eyebrow">Panel Editorial</p>
+    <h2 id="gate-title" tabindex="-1">Acceso Exclusivo <span>· Ali Gómez</span></h2>
+    <p class="gate-copy">Este espacio está reservado para administradores autorizados. Inicia sesión con tu cuenta de Google para gestionar el portafolio.</p>
+    <div class="gate-btn" id="gateBtn"></div>
+    <p class="gate-status" id="gateStatus" role="alert">Comprobando sesión…</p>
+    <p class="gate-foot">Ali Marcarella Gómez · Fotografía y Video Profesional</p>
+  </div>
+</section>
+
+<header class="top" id="adminHeader" hidden>
   <div>
     <p class="eyebrow">Ali Marcarella Gómez</p>
     <h1>Panel Editorial <span>· Ali Gómez</span></h1>
   </div>
   <div class="top-actions">
-    <span class="local-badge"><i aria-hidden="true"></i>Catálogo Local</span>
+    <span class="local-badge" id="cloudBadge" data-state="syncing" title="Conectando con Turso Cloud"><i aria-hidden="true"></i><span>Turso Cloud</span></span>
+    <span class="user-badge" id="userBadge" title="Sesión activa" hidden><i aria-hidden="true"></i><span id="userEmail"></span></span>
+    <button class="btn btn-line" id="logoutBtn" type="button" hidden>Cerrar sesión</button>
     <a class="btn btn-pri" href="../#galeria">Ver Portafolio en Vivo</a>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="adminMain" hidden>
   <section class="intro" aria-labelledby="intro-title">
     <p class="eyebrow">Administración del portafolio</p>
     <h2 id="intro-title">Construye el catálogo.</h2>
-    <p>Carga una fotografía, clasifícala y publícala en la galería del sitio. Los cambios viven en este navegador hasta que exportes el respaldo.</p>
+    <p>Carga una fotografía, clasifícala y publícala en la galería del sitio. Los cambios se guardan en Turso Cloud y aparecen en el portafolio en vivo.</p>
   </section>
 
   <div class="editor">
@@ -179,6 +218,7 @@ p{max-width:62ch}
               <option value="producto">Producto</option>
               <option value="eventos">Eventos</option>
               <option value="retratos">Retratos</option>
+              <option value="video">Video</option>
             </select>
           </div>
           <div class="field">
@@ -186,24 +226,25 @@ p{max-width:62ch}
             <input id="alt" name="alt" type="text" maxlength="180" placeholder="Descripción breve para accesibilidad">
           </div>
         </div>
-        <button class="btn btn-pri add" type="submit">Agregar al Catálogo</button>
+        <button class="btn btn-pri add" id="addBtn" type="submit">Agregar al Catálogo</button>
         <p class="status" id="status" role="status" aria-live="polite"></p>
       </form>
     </section>
 
     <aside class="panel side" aria-labelledby="summary-title">
       <h2 id="summary-title">Resumen del catálogo</h2>
-      <p class="panel-sub">Obras guardadas en este navegador.</p>
+      <p class="panel-sub">Obras del catálogo en Turso Cloud.</p>
       <div class="metrics">
         <div class="metric total"><strong id="countTotal">0</strong><span>Total de fotos</span></div>
         <div class="metric"><strong data-count="bodas">0</strong><span>Bodas</span></div>
         <div class="metric"><strong data-count="corp">0</strong><span>Corporativo</span></div>
         <div class="metric"><strong data-count="producto">0</strong><span>Producto</span></div>
         <div class="metric"><strong data-count="eventos">0</strong><span>Eventos</span></div>
-        <div class="metric wide"><strong data-count="retratos">0</strong><span>Retratos</span></div>
+        <div class="metric"><strong data-count="retratos">0</strong><span>Retratos</span></div>
+        <div class="metric"><strong data-count="video">0</strong><span>Video</span></div>
       </div>
       <button class="btn btn-line export" id="export" type="button">Exportar portfolio.json</button>
-      <p class="hint">El catálogo se guarda en localStorage. Exporta el JSON para respaldarlo o versionarlo.</p>
+      <p class="hint">El catálogo se sincroniza con Turso Cloud y se cachea en este navegador como respaldo. Exporta el JSON si quieres una copia adicional.</p>
     </aside>
   </div>
 
@@ -222,11 +263,11 @@ p{max-width:62ch}
 <script>
 (()=>{
 'use strict';
-const KEY='aligomez_portfolio_custom_v1';
-const CAT_LABEL=Object.freeze({bodas:'Bodas',corp:'Corporativo',producto:'Producto',eventos:'Eventos',retratos:'Retratos'});
+const KEY='aligomez_portfolio_custom_v1',BACKUP_KEY=KEY+'_local_backup';
+const CAT_LABEL=Object.freeze({bodas:'Bodas',corp:'Corporativo',producto:'Producto',eventos:'Eventos',retratos:'Retratos',video:'Video'});
 const CATS=Object.keys(CAT_LABEL);
 const $=(s,r=document)=>r.querySelector(s);
-const grid=$('#grid'),empty=$('#empty'),form=$('#form'),drop=$('#drop'),fileInput=$('#file'),urlInput=$('#url'),loadUrlBtn=$('#loadUrl'),titleInput=$('#title'),catSelect=$('#cat'),altInput=$('#alt'),status=$('#status'),previewImg=$('#previewImg'),previewEmpty=$('#previewEmpty'),previewMeta=$('#previewMeta'),countTotal=$('#countTotal'),catalogCount=$('#catalogCount'),exportBtn=$('#export'),canvas=$('#canvas');
+const grid=$('#grid'),empty=$('#empty'),form=$('#form'),drop=$('#drop'),fileInput=$('#file'),urlInput=$('#url'),loadUrlBtn=$('#loadUrl'),titleInput=$('#title'),catSelect=$('#cat'),altInput=$('#alt'),status=$('#status'),previewImg=$('#previewImg'),previewEmpty=$('#previewEmpty'),previewMeta=$('#previewMeta'),countTotal=$('#countTotal'),catalogCount=$('#catalogCount'),exportBtn=$('#export'),canvas=$('#canvas'),addBtn=$('#addBtn'),cloudBadge=$('#cloudBadge');
 let items=load(),pending=null;
 
 function makeId(){return 'custom-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7)}
@@ -243,15 +284,52 @@ function load(){
   }catch(e){return []}
 }
 function setStatus(msg,type='info'){status.textContent=msg;status.dataset.type=type}
-function persist(next){
+function setCloudState(state,title){
+  cloudBadge.dataset.state=state;
+  cloudBadge.title=title;
+  cloudBadge.setAttribute('aria-label','Turso Cloud: '+title);
+}
+function fromPhoto(p){
+  if(!p||typeof p.id!=='string'||!p.id||typeof p.title!=='string'||!p.title.trim()||!CAT_LABEL[p.category]||!validSrc(p.src))return null;
+  return {
+    id:p.id,t:p.title.trim(),cat:p.category,
+    alt:typeof p.alt==='string'&&p.alt?p.alt:p.title.trim(),
+    src:p.src,w:Number.isFinite(p.width)?p.width:null,h:Number.isFinite(p.height)?p.height:null,
+    addedAt:typeof p.created_at==='string'?p.created_at:''
+  };
+}
+function commit(next){
+  items=next;
+  try{localStorage.setItem(KEY,JSON.stringify(next))}catch(e){}
+  render();
+}
+async function syncCloud(){
+  setCloudState('syncing','Sincronizando con Turso Cloud…');
+  setStatus('Cargando fotos desde Turso…','info');
   try{
-    localStorage.setItem(KEY,JSON.stringify(next));
-    items=next;render();return true;
+    const res=await fetch('/api/photos?t='+Date.now(),{credentials:'same-origin',cache:'no-store'});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok||!Array.isArray(data.photos))throw new Error(data.error||'No se pudo leer el catálogo de Turso.');
+    const seen=new Set(),next=[];
+    data.photos.forEach(p=>{
+      const item=fromPhoto(p);
+      if(item&&!seen.has(item.id)){seen.add(item.id);next.push(item)}
+    });
+    // Preserve pre-Turso local photos before the cloud list replaces the cache.
+    const localOnly=load().filter(it=>!seen.has(it.id));
+    if(localOnly.length&&!localStorage.getItem(BACKUP_KEY)){
+      try{localStorage.setItem(BACKUP_KEY,JSON.stringify(localOnly))}catch(e){}
+    }
+    commit(next);
+    setCloudState('online','Conectado a Turso Cloud');
+    if(localOnly.length)setStatus('Turso sincronizado. Se conservó un respaldo de '+localOnly.length+(localOnly.length===1?' obra local.':' obras locales.'),'info');
+    else setStatus(next.length?'Catálogo sincronizado con Turso Cloud.':'Turso Cloud conectado. Aún no hay fotos.','ok');
   }catch(e){
-    setStatus('No se pudo guardar en este navegador. Verifica el almacenamiento local o usa una URL externa.','error');
-    return false;
+    setCloudState('offline','Sin conexión a Turso; mostrando la caché local');
+    setStatus('No se pudo conectar con Turso. Mostrando la caché local.','error');
   }
 }
+addEventListener('admin:session',syncCloud);
 function setPreview(src,w,h,label,extra={}){
   pending={src,w,h,...extra};
   previewImg.src=src;previewImg.hidden=false;previewEmpty.hidden=true;
@@ -328,15 +406,29 @@ function render(){
     const body=document.createElement('div');body.className='card-body';
     const heading=document.createElement('h3');heading.textContent=it.t;
     const del=document.createElement('button');del.type='button';del.className='del';del.textContent='Eliminar';del.setAttribute('aria-label','Eliminar '+it.t);
-    del.addEventListener('click',()=>remove(it.id));
+    del.addEventListener('click',()=>remove(it.id,del));
     body.append(heading,del);card.append(media,body);grid.append(card);
   });
 }
-function remove(id){
+async function remove(id,btn){
   const item=items.find(it=>it.id===id);
   if(!item)return;
-  if(!confirm('¿Eliminar «'+item.t+'» del catálogo local?'))return;
-  if(persist(items.filter(it=>it.id!==id)))setStatus('Obra eliminada del catálogo.','ok');
+  if(!confirm('¿Eliminar «'+item.t+'» del catálogo en Turso?'))return;
+  if(btn)btn.disabled=true;
+  setCloudState('syncing','Eliminando en Turso Cloud…');
+  setStatus('Eliminando la obra en Turso…','info');
+  try{
+    const res=await fetch('/api/photos?id='+encodeURIComponent(id),{method:'DELETE',credentials:'same-origin'});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok)throw new Error(data.error||'No se pudo eliminar la obra.');
+    commit(items.filter(it=>it.id!==id));
+    setCloudState('online','Conectado a Turso Cloud');
+    setStatus('Obra eliminada de Turso Cloud.','ok');
+  }catch(e){
+    setCloudState('offline','No se pudo eliminar en Turso Cloud');
+    setStatus(e instanceof Error?e.message:'No se pudo eliminar la obra.','error');
+    if(btn)btn.disabled=false;
+  }
 }
 function exportJson(){
   const blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});
@@ -347,16 +439,32 @@ function exportJson(){
   setTimeout(()=>URL.revokeObjectURL(url),1000);
   setStatus('portfolio.json generado.','ok');
 }
-form.addEventListener('submit',e=>{
+form.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!pending){setStatus('Carga una imagen o una URL válida antes de agregar.','error');return}
   const t=titleInput.value.trim();
   if(!t){setStatus('Escribe un título para la obra.','error');titleInput.focus();return}
-  const item={id:makeId(),t,cat:catSelect.value,alt:altInput.value.trim()||t,src:pending.src,w:pending.w||null,h:pending.h||null,addedAt:new Date().toISOString()};
-  if(!persist([item,...items]))return;
-  form.reset();clearPreview();
-  setStatus('Obra agregada al catálogo local.','ok');
-  titleInput.focus();
+  const payload={title:t,category:catSelect.value,alt:altInput.value.trim()||t,src:pending.src,width:pending.w||null,height:pending.h||null,sort_order:0};
+  addBtn.disabled=true;
+  setCloudState('syncing','Guardando en Turso Cloud…');
+  setStatus('Guardando la obra en Turso…','info');
+  try{
+    const res=await fetch('/api/photos',{method:'POST',headers:{'content-type':'application/json'},credentials:'same-origin',body:JSON.stringify(payload)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok)throw new Error(data.error||'No se pudo guardar la obra.');
+    const item=fromPhoto(data.photo);
+    if(!item)throw new Error('La respuesta de Turso no es válida.');
+    commit([item,...items]);
+    form.reset();clearPreview();
+    setCloudState('online','Conectado a Turso Cloud');
+    setStatus('Obra guardada en Turso Cloud.','ok');
+    titleInput.focus();
+  }catch(err){
+    setCloudState('offline','No se pudo guardar en Turso Cloud');
+    setStatus(err instanceof Error?err.message:'No se pudo guardar la obra.','error');
+  }finally{
+    addBtn.disabled=false;
+  }
 });
 fileInput.addEventListener('change',()=>{
   const file=fileInput.files&&fileInput.files[0];
@@ -373,6 +481,84 @@ loadUrlBtn.addEventListener('click',loadFromUrl);
 exportBtn.addEventListener('click',exportJson);
 addEventListener('storage',e=>{if(e.key===KEY){items=load();render()}});
 render();
+})();
+</script>
+<script>
+(()=>{
+'use strict';
+const CLIENT_ID='368451259646-lvkp7q372m712rsj2adbidam4d72g4m0.apps.googleusercontent.com';
+const gate=document.getElementById('gate'),gateTitle=document.getElementById('gate-title'),gateBtn=document.getElementById('gateBtn'),gateStatus=document.getElementById('gateStatus');
+const header=document.getElementById('adminHeader'),main=document.getElementById('adminMain'),userBadge=document.getElementById('userBadge'),userEmail=document.getElementById('userEmail'),logoutBtn=document.getElementById('logoutBtn');
+let resolved=false;
+
+function setStatus(message,type='info'){gateStatus.textContent=message;gateStatus.dataset.type=type}
+
+function refreshGoogleButton(){
+  if(!resolved||gate.hidden||!window.google?.accounts?.id)return;
+  window.google.accounts.id.initialize({client_id:CLIENT_ID,callback:onCredential,auto_select:false,cancel_on_tap_outside:true,ux_mode:'popup'});
+  gateBtn.replaceChildren();
+  window.google.accounts.id.renderButton(gateBtn,{type:'standard',theme:'filled_black',size:'large',text:'signin_with',shape:'rectangular',logo_alignment:'left',width:Math.min(300,gateBtn.clientWidth||300)});
+}
+
+function lock(message='Inicia sesión con una cuenta de Google autorizada.'){
+  header.hidden=true;main.hidden=true;userBadge.hidden=true;logoutBtn.hidden=true;userEmail.textContent='';
+  gate.hidden=false;setStatus(message);gateTitle.focus({preventScroll:true});refreshGoogleButton();
+}
+
+function unlock(user){
+  gate.hidden=true;header.hidden=false;main.hidden=false;
+  userEmail.textContent=user.email||'';userBadge.title='Sesión activa: '+(user.email||'');
+  userBadge.hidden=false;logoutBtn.hidden=false;
+  dispatchEvent(new CustomEvent('admin:session',{detail:{user}}));
+}
+
+async function onCredential(response){
+  if(!response?.credential){setStatus('Google no devolvió una credencial válida. Inténtalo de nuevo.','error');return}
+  setStatus('Verificando tu cuenta…');
+  try{
+    const res=await fetch('/api/auth/google',{method:'POST',headers:{'content-type':'application/json'},credentials:'same-origin',body:JSON.stringify({credential:response.credential})});
+    const data=await res.json().catch(()=>({}));
+    if(res.status===403){setStatus('Acceso denegado: correo no autorizado','error');return}
+    if(!res.ok||!data.ok){setStatus(data.error||'No se pudo iniciar sesión. Inténtalo de nuevo.','error');return}
+    unlock(data.user);
+  }catch{
+    setStatus('Error de conexión. Revisa tu red e inténtalo de nuevo.','error');
+  }
+}
+
+async function checkSession(){
+  try{
+    const res=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'});
+    const data=await res.json().catch(()=>({}));
+    if(res.ok&&data.authenticated&&data.user)unlock(data.user);
+    else lock();
+  }catch{
+    lock('No se pudo comprobar la sesión. Revisa tu conexión e inténtalo de nuevo.');
+  }finally{
+    resolved=true;
+    if(!gate.hidden)refreshGoogleButton();
+  }
+}
+
+async function logout(){
+  logoutBtn.disabled=true;
+  try{await fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'})}catch{}
+  if(window.google?.accounts?.id)window.google.accounts.id.disableAutoSelect();
+  logoutBtn.disabled=false;
+  lock('Sesión cerrada. Inicia sesión de nuevo para continuar.');
+}
+
+logoutBtn.addEventListener('click',logout);
+
+const timer=setInterval(()=>{
+  if(window.google?.accounts?.id){clearInterval(timer);refreshGoogleButton()}
+},150);
+setTimeout(()=>{
+  clearInterval(timer);
+  if(!window.google?.accounts?.id&&!gate.hidden)setStatus('No se pudo cargar Google Sign-In. Revisa tu conexión y recarga la página.','error');
+},15000);
+
+checkSession();
 })();
 </script>
 </body>
