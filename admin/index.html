@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b0a09">
+<title>Panel Editorial · Ali Gómez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0a09;--bg2:#13110e;--bg3:#1b1815;
+  --ink:#efe9dd;--mut:#aaa294;--line:rgba(239,233,221,.15);--line2:rgba(239,233,221,.3);
+  --acc:#d49a55;--acc2:#e8b878;--rec:#d8372b;
+  --dsp:'Instrument Serif','Iowan Old Style','Palatino Linotype',Georgia,serif;
+  --bd:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --ease:cubic-bezier(.23,1,.32,1);
+  --g:clamp(18px,4vw,56px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:48px;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--bd);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{font-family:var(--dsp);font-weight:400;line-height:1.05;letter-spacing:-.012em}
+p{max-width:62ch}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 var(--g)}
+.eyebrow{font:600 11px/1 var(--bd);letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin:0}
+.mut{color:var(--mut)}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:28px var(--g) 24px;border-bottom:1px solid var(--line)}
+.top h1{font-size:clamp(32px,4.4vw,52px);margin:8px 0 0}
+.top h1 span{color:var(--acc)}
+.top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.local-badge{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:99px;font:600 10px/1 var(--bd);letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
+.local-badge i{width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid transparent;border-radius:2px;font:600 11px/1 var(--bd);letter-spacing:.11em;text-transform:uppercase;text-decoration:none;transition:background-color .2s,color .2s,border-color .2s,transform .16s var(--ease)}
+.btn:active{transform:scale(.98)}
+.btn-pri{background:var(--acc);color:#17120c}
+.btn-pri:hover{background:var(--acc2)}
+.btn-line{border-color:var(--line2);background:transparent;color:var(--ink)}
+.btn-line:hover{border-color:var(--ink);background:rgba(239,233,221,.06)}
+.intro{padding:clamp(38px,6vw,72px) 0 30px;max-width:760px}
+.intro h2{font-size:clamp(36px,5.4vw,64px);margin:12px 0 16px}
+.intro p{margin:0;color:var(--mut)}
+.editor{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:20px;align-items:start}
+.panel{border:1px solid var(--line);background:var(--bg2);padding:clamp(18px,2.6vw,30px);min-width:0}
+.panel h2{font-size:clamp(26px,3vw,36px);margin:0 0 8px}
+.panel-sub{margin:0 0 22px;color:var(--mut);font-size:14px;line-height:1.5}
+.side{position:sticky;top:20px}
+.drop{position:relative;display:grid;place-items:center;gap:6px;min-height:200px;padding:30px 20px;border:1px dashed var(--line2);background:var(--bg);text-align:center;transition:border-color .2s,background-color .2s}
+.drop:hover,.drop:focus-within,.drop.over{border-color:var(--acc);background:rgba(212,154,85,.05)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.drop svg{width:36px;height:36px;margin-bottom:4px;stroke:var(--acc);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.drop strong{font:400 23px/1.2 var(--dsp)}
+.drop span{font-size:13px;color:var(--mut)}
+.url-row{margin-top:16px}
+.url-row label{display:block;margin-bottom:8px;font:600 10px/1 var(--bd);letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
+.url-input{display:flex;gap:8px}
+.url-input input{flex:1;min-width:0;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--ink)}
+.url-input input:focus{border-color:var(--acc);outline:none}
+.url-input .btn{flex:0 0 auto}
+.preview{display:grid;place-items:center;min-height:180px;margin-top:18px;padding:10px;border:1px solid var(--line);background:#070605;overflow:hidden}
+.preview img{width:auto;height:auto;max-width:100%;max-height:340px;object-fit:contain}
+.preview p{margin:0;color:var(--mut);font-size:13px}
+.preview-meta{min-height:20px;margin:8px 0 0;color:var(--mut);font-size:12px;letter-spacing:.03em}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font:600 10px/1 var(--bd);letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
+.field input,.field select{width:100%;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--ink)}
+.field input:focus,.field select:focus{border-color:var(--acc);outline:none}
+.add{width:100%;margin-top:18px}
+.status{min-height:22px;margin:12px 0 0;font-size:13px}
+.status[data-type="ok"]{color:var(--acc)}
+.status[data-type="error"]{color:var(--rec)}
+.status[data-type="info"]{color:var(--mut)}
+.metrics{display:grid;grid-template-columns:1fr 1fr;margin:18px 0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.metric{padding:14px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.metric strong{display:block;font:400 30px/1 var(--dsp);color:var(--acc)}
+.metric span{display:block;margin-top:6px;font:600 10px/1.2 var(--bd);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.metric.total,.metric.wide{grid-column:1/-1}
+.metric.total strong{font-size:46px}
+.export{width:100%}
+.hint{margin:12px 0 0;color:var(--mut);font-size:12px;line-height:1.5}
+.catalog{margin-top:clamp(44px,6vw,80px);padding-top:28px;border-top:1px solid var(--line)}
+.catalog-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.catalog-head h2{font-size:clamp(30px,4vw,46px);margin:0}
+.count{margin:0;color:var(--mut);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{border:1px solid var(--line);background:var(--bg2);min-width:0}
+.card-media{position:relative;aspect-ratio:4/5;background:var(--bg3);overflow:hidden}
+.card-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.card:hover .card-media img{transform:scale(1.03)}
+.badge{position:absolute;top:10px;left:10px;padding:5px 9px;border:1px solid rgba(212,154,85,.45);background:rgba(11,10,9,.82);color:var(--acc);font:600 10px/1 var(--bd);letter-spacing:.15em;text-transform:uppercase}
+.card-body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:14px}
+.card-body h3{font-size:22px;line-height:1.2;margin:0;overflow-wrap:anywhere}
+.del{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:2px;background:transparent;color:var(--mut);font:600 10px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;transition:border-color .2s,color .2s,transform .16s var(--ease)}
+.del:hover{border-color:var(--rec);color:var(--rec)}
+.del:active{transform:scale(.97)}
+.empty{max-width:none;margin:0;padding:28px;border:1px dashed var(--line);color:var(--mut);text-align:center}
+@media(max-width:900px){
+  .editor{grid-template-columns:1fr}
+  .side{position:static}
+}
+@media(max-width:640px){
+  .top{padding-top:22px}
+  .top-actions{width:100%;justify-content:space-between}
+  .top-actions .btn{flex:1 1 auto}
+  .fields{grid-template-columns:1fr}
+  .url-input{flex-wrap:wrap}
+  .url-input input{flex:1 1 100%}
+  .url-input .btn{width:100%}
+  .cards{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+}
+@media(prefers-reduced-motion:reduce){
+  .btn,.drop,.field input,.field select,.card-media img,.del{transition:none}
+  .btn:active,.del:active{transform:none}
+  .card:hover .card-media img{transform:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Ali Marcarella Gómez</p>
+    <h1>Panel Editorial <span>· Ali Gómez</span></h1>
+  </div>
+  <div class="top-actions">
+    <span class="local-badge"><i aria-hidden="true"></i>Catálogo Local</span>
+    <a class="btn btn-pri" href="../#galeria">Ver Portafolio en Vivo</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro" aria-labelledby="intro-title">
+    <p class="eyebrow">Administración del portafolio</p>
+    <h2 id="intro-title">Construye el catálogo.</h2>
+    <p>Carga una fotografía, clasifícala y publícala en la galería del sitio. Los cambios viven en este navegador hasta que exportes el respaldo.</p>
+  </section>
+
+  <div class="editor">
+    <section class="panel" aria-labelledby="upload-title">
+      <h2 id="upload-title">Nueva obra</h2>
+      <p class="panel-sub">JPG, PNG o WebP. La imagen se optimiza a un máximo de 1600 px y se convierte a WebP.</p>
+      <label class="drop" id="drop" for="file">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
+        <strong>Arrastra una imagen aquí</strong>
+        <span>o haz clic para elegir un archivo</span>
+        <input id="file" type="file" accept="image/*">
+      </label>
+      <div class="url-row">
+        <label for="url">O usa una URL externa</label>
+        <div class="url-input">
+          <input id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://...">
+          <button class="btn btn-line" id="loadUrl" type="button">Cargar</button>
+        </div>
+      </div>
+      <div class="preview" id="preview">
+        <img id="previewImg" alt="" hidden>
+        <p id="previewEmpty">Vista previa de la obra</p>
+      </div>
+      <p class="preview-meta" id="previewMeta"></p>
+      <form id="form" novalidate>
+        <div class="fields">
+          <div class="field full">
+            <label for="title">Título de la obra</label>
+            <input id="title" name="title" type="text" maxlength="120" placeholder="Boda en Caracas" required>
+          </div>
+          <div class="field">
+            <label for="cat">Categoría comercial</label>
+            <select id="cat" name="cat">
+              <option value="bodas" selected>Bodas</option>
+              <option value="corp">Corporativo</option>
+              <option value="producto">Producto</option>
+              <option value="eventos">Eventos</option>
+              <option value="retratos">Retratos</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="alt">Texto alternativo (Alt)</label>
+            <input id="alt" name="alt" type="text" maxlength="180" placeholder="Descripción breve para accesibilidad">
+          </div>
+        </div>
+        <button class="btn btn-pri add" type="submit">Agregar al Catálogo</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <aside class="panel side" aria-labelledby="summary-title">
+      <h2 id="summary-title">Resumen del catálogo</h2>
+      <p class="panel-sub">Obras guardadas en este navegador.</p>
+      <div class="metrics">
+        <div class="metric total"><strong id="countTotal">0</strong><span>Total de fotos</span></div>
+        <div class="metric"><strong data-count="bodas">0</strong><span>Bodas</span></div>
+        <div class="metric"><strong data-count="corp">0</strong><span>Corporativo</span></div>
+        <div class="metric"><strong data-count="producto">0</strong><span>Producto</span></div>
+        <div class="metric"><strong data-count="eventos">0</strong><span>Eventos</span></div>
+        <div class="metric wide"><strong data-count="retratos">0</strong><span>Retratos</span></div>
+      </div>
+      <button class="btn btn-line export" id="export" type="button">Exportar portfolio.json</button>
+      <p class="hint">El catálogo se guarda en localStorage. Exporta el JSON para respaldarlo o versionarlo.</p>
+    </aside>
+  </div>
+
+  <section class="catalog" aria-labelledby="catalog-title">
+    <div class="catalog-head">
+      <h2 id="catalog-title">Fotos activas</h2>
+      <p class="count" id="catalogCount" aria-live="polite">0 obras</p>
+    </div>
+    <div class="cards" id="grid"></div>
+    <p class="empty" id="empty">Aún no hay fotos. Carga la primera para verla en el portafolio.</p>
+  </section>
+</main>
+
+<canvas id="canvas" hidden></canvas>
+
+<script>
+(()=>{
+'use strict';
+const KEY='aligomez_portfolio_custom_v1';
+const CAT_LABEL=Object.freeze({bodas:'Bodas',corp:'Corporativo',producto:'Producto',eventos:'Eventos',retratos:'Retratos'});
+const CATS=Object.keys(CAT_LABEL);
+const $=(s,r=document)=>r.querySelector(s);
+const grid=$('#grid'),empty=$('#empty'),form=$('#form'),drop=$('#drop'),fileInput=$('#file'),urlInput=$('#url'),loadUrlBtn=$('#loadUrl'),titleInput=$('#title'),catSelect=$('#cat'),altInput=$('#alt'),status=$('#status'),previewImg=$('#previewImg'),previewEmpty=$('#previewEmpty'),previewMeta=$('#previewMeta'),countTotal=$('#countTotal'),catalogCount=$('#catalogCount'),exportBtn=$('#export'),canvas=$('#canvas');
+let items=load(),pending=null;
+
+function makeId(){return 'custom-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7)}
+function validSrc(src){return typeof src==='string'&&(/^data:image\//i.test(src)||/^https?:\/\//i.test(src))}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY)||'[]');
+    if(!Array.isArray(raw))return [];
+    return raw.filter(it=>it&&typeof it.t==='string'&&it.t.trim()&&CAT_LABEL[it.cat]&&validSrc(it.src)).map(it=>({
+      id:typeof it.id==='string'&&it.id?it.id:makeId(),
+      t:it.t,cat:it.cat,alt:typeof it.alt==='string'?it.alt:'',src:it.src,
+      w:Number.isFinite(it.w)?it.w:null,h:Number.isFinite(it.h)?it.h:null,addedAt:typeof it.addedAt==='string'?it.addedAt:''
+    }));
+  }catch(e){return []}
+}
+function setStatus(msg,type='info'){status.textContent=msg;status.dataset.type=type}
+function persist(next){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(next));
+    items=next;render();return true;
+  }catch(e){
+    setStatus('No se pudo guardar en este navegador. Verifica el almacenamiento local o usa una URL externa.','error');
+    return false;
+  }
+}
+function setPreview(src,w,h,label,extra={}){
+  pending={src,w,h,...extra};
+  previewImg.src=src;previewImg.hidden=false;previewEmpty.hidden=true;
+  previewMeta.textContent=[label,w&&h?w+' × '+h:''].filter(Boolean).join(' · ');
+}
+function clearPreview(){
+  pending=null;previewImg.hidden=true;previewImg.removeAttribute('src');previewEmpty.hidden=false;previewMeta.textContent='';
+}
+function loadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+async function processFile(file){
+  if(!file||!file.type.startsWith('image/')){setStatus('Selecciona un archivo de imagen válido.','error');return}
+  clearPreview();
+  setStatus('Procesando imagen…','info');
+  const objectUrl=URL.createObjectURL(file);
+  try{
+    const img=await loadImage(objectUrl);
+    const max=1600,scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+    const w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale));
+    canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext('2d');
+    if(!ctx)throw new Error('canvas');
+    ctx.drawImage(img,0,0,w,h);
+    const src=canvas.toDataURL('image/webp',0.85);
+    urlInput.value='';
+    setPreview(src,w,h,file.name,{kind:'file'});
+    setStatus('Imagen lista. Completa los datos y agrégala al catálogo.','ok');
+  }catch(e){
+    setStatus('No se pudo procesar la imagen. Prueba con otra.','error');
+  }finally{
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+function parseHttpUrl(raw){
+  try{
+    const url=new URL(raw,location.href);
+    return /^https?:$/.test(url.protocol)?url.href:null;
+  }catch(e){return null}
+}
+function loadFromUrl(){
+  const url=parseHttpUrl(urlInput.value.trim());
+  if(!url){setStatus('Escribe una URL válida que empiece por http:// o https://.','error');return}
+  clearPreview();
+  setStatus('Cargando vista previa…','info');
+  const probe=new Image();
+  probe.onload=()=>{
+    fileInput.value='';
+    setPreview(url,probe.naturalWidth,probe.naturalHeight,'URL externa',{kind:'url',url});
+    setStatus('URL lista. Completa los datos y agrégala al catálogo.','ok');
+  };
+  probe.onerror=()=>{clearPreview();setStatus('No se pudo cargar la imagen desde esa URL.','error')};
+  probe.src=url;
+}
+function render(){
+  const counts=Object.fromEntries(CATS.map(c=>[c,0]));
+  items.forEach(it=>counts[it.cat]++);
+  countTotal.textContent=items.length;
+  document.querySelectorAll('[data-count]').forEach(el=>{el.textContent=counts[el.dataset.count]||0});
+  catalogCount.textContent=items.length===1?'1 obra':items.length+' obras';
+  grid.replaceChildren();
+  empty.hidden=items.length>0;
+  items.forEach(it=>{
+    const card=document.createElement('article');card.className='card';
+    const media=document.createElement('div');media.className='card-media';
+    const img=document.createElement('img');img.src=it.src;img.alt=it.alt||it.t;img.loading='lazy';img.decoding='async';
+    const badge=document.createElement('span');badge.className='badge';badge.textContent=CAT_LABEL[it.cat];
+    media.append(img,badge);
+    const body=document.createElement('div');body.className='card-body';
+    const heading=document.createElement('h3');heading.textContent=it.t;
+    const del=document.createElement('button');del.type='button';del.className='del';del.textContent='Eliminar';del.setAttribute('aria-label','Eliminar '+it.t);
+    del.addEventListener('click',()=>remove(it.id));
+    body.append(heading,del);card.append(media,body);grid.append(card);
+  });
+}
+function remove(id){
+  const item=items.find(it=>it.id===id);
+  if(!item)return;
+  if(!confirm('¿Eliminar «'+item.t+'» del catálogo local?'))return;
+  if(persist(items.filter(it=>it.id!==id)))setStatus('Obra eliminada del catálogo.','ok');
+}
+function exportJson(){
+  const blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;link.download='portfolio.json';
+  document.body.append(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  setStatus('portfolio.json generado.','ok');
+}
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!pending){setStatus('Carga una imagen o una URL válida antes de agregar.','error');return}
+  const t=titleInput.value.trim();
+  if(!t){setStatus('Escribe un título para la obra.','error');titleInput.focus();return}
+  const item={id:makeId(),t,cat:catSelect.value,alt:altInput.value.trim()||t,src:pending.src,w:pending.w||null,h:pending.h||null,addedAt:new Date().toISOString()};
+  if(!persist([item,...items]))return;
+  form.reset();clearPreview();
+  setStatus('Obra agregada al catálogo local.','ok');
+  titleInput.focus();
+});
+fileInput.addEventListener('change',()=>{
+  const file=fileInput.files&&fileInput.files[0];
+  if(file)processFile(file);
+  fileInput.value='';
+});
+['dragenter','dragover'].forEach(type=>drop.addEventListener(type,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(type=>drop.addEventListener(type,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{const file=e.dataTransfer.files&&e.dataTransfer.files[0];if(file)processFile(file)});
+urlInput.addEventListener('input',()=>{
+  if(pending&&(pending.kind!=='url'||pending.url!==urlInput.value.trim()))clearPreview();
+});
+loadUrlBtn.addEventListener('click',loadFromUrl);
+exportBtn.addEventListener('click',exportJson);
+addEventListener('storage',e=>{if(e.key===KEY){items=load();render()}});
+render();
+})();
+</script>
+</body>
+</html>
