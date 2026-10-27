@@ -91,6 +91,33 @@ export const onRequestPost = route<Env>(async ({ request, env }) => {
   );
 });
 
+export const onRequestPatch = route<Env>(async ({ request, env }) => {
+  await requireAdmin(request, env);
+
+  const body = await readBody<Record<string, unknown>>(request);
+  const id = str(body.id, 'id', { required: true, max: 120 });
+  const category = str(body.category, 'category', { required: true });
+  if (!CATEGORIES.has(category)) throw new HttpError(400, 'Categoría no válida.');
+
+  if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
+    return json(
+      { ok: true, photo: { id, category }, offline: true },
+      { headers: { 'cache-control': 'no-store' } },
+    );
+  }
+
+  const db = getDb(env);
+  await db.execute({
+    sql: 'UPDATE photos SET category = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;',
+    args: [category, id],
+  });
+
+  return json(
+    { ok: true, photo: { id, category } },
+    { headers: { 'cache-control': 'no-store' } },
+  );
+});
+
 export const onRequestDelete = route<Env>(async ({ request, env }) => {
   await requireAdmin(request, env);
   if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
