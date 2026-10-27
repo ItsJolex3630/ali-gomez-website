@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 96" width="460" height="96">
+  <defs>
+    <linearGradient id="logoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fae3be"/>
+      <stop offset="40%" stop-color="#d49a55"/>
+      <stop offset="80%" stop-color="#e8b878"/>
+      <stop offset="100%" stop-color="#ab7028"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Emblem (Scaled & Centered at x=48, y=48, r=40) -->
+  <g transform="translate(8, 8) scale(0.15625)">
+    <!-- Canvas Base -->
+    <rect width="512" height="512" rx="112" fill="#0b0a09"/>
+    <rect width="496" height="496" x="8" y="8" rx="104" fill="none" stroke="url(#logoGold)" stroke-width="3" stroke-opacity="0.4"/>
+    
+    <!-- Viewfinder Brackets -->
+    <g stroke="url(#logoGold)" stroke-width="7" stroke-linecap="round" fill="none">
+      <path d="M 60 112 L 60 60 L 112 60"/>
+      <path d="M 452 112 L 452 60 L 400 60"/>
+      <path d="M 60 400 L 60 452 L 112 452"/>
+      <path d="M 452 400 L 452 452 L 400 452"/>
+    </g>
+
+    <!-- Lens Ring -->
+    <circle cx="256" cy="256" r="222" fill="none" stroke="url(#logoGold)" stroke-width="4" stroke-opacity="0.45"/>
+
+    <!-- Monogram AG -->
+    <path d="M 142 368 L 226 144" stroke="url(#logoGold)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M 220 144 L 246 144" stroke="url(#logoGold)" stroke-width="22" stroke-linecap="round"/>
+    <path d="M 238 144 L 308 368" stroke="url(#logoGold)" stroke-width="32" stroke-linecap="round"/>
+    <path d="M 124 368 L 164 368 M 288 368 L 334 368" stroke="url(#logoGold)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M 174 286 L 278 286" stroke="url(#logoGold)" stroke-width="14" stroke-linecap="round"/>
+
+    <path d="M 378 198 C 354 150, 302 134, 252 146 C 182 162, 138 228, 146 300 C 156 376, 218 416, 294 412 C 356 408, 404 368, 406 302 L 298 302"
+          fill="none" stroke="url(#logoGold)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 406 288 L 406 338" stroke="url(#logoGold)" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="378" cy="198" r="14" fill="url(#logoGold)"/>
+    <circle cx="256" cy="256" r="9" fill="#efe9dd"/>
+  </g>
+
+  <!-- Divider Line -->
+  <line x1="104" y1="20" x2="104" y2="76" stroke="rgba(239,233,221,0.2)" stroke-width="1"/>
+
+  <!-- Typography: ALI GÓMEZ -->
+  <text x="124" y="50"
+        font-family="'Instrument Serif', Georgia, serif"
+        font-size="34"
+        font-weight="400"
+        letter-spacing="0.04em"
+        fill="#efe9dd">ALI GÓMEZ</text>
+
+  <!-- Subtitle: FOTOGRAFÍA &amp; VIDEO -->
+  <text x="125" y="70"
+        font-family="'Hanken Grotesk', system-ui, sans-serif"
+        font-size="9.5"
+        font-weight="600"
+        letter-spacing="0.28em"
+        fill="url(#logoGold)">FOTOGRAFÍA &amp; VIDEO</text>
+</svg>
