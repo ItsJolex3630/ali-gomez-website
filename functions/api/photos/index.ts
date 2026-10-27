@@ -4,6 +4,13 @@ import { getDb, HttpError, json, num, readBody, route, str, type Env } from '../
 const CATEGORIES = new Set(['bodas', 'corp', 'producto', 'eventos', 'retratos', 'video']);
 
 export const onRequestGet = route<Env>(async ({ env }) => {
+  if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
+    return json(
+      { ok: true, photos: [] },
+      { headers: { 'cache-control': 'public, max-age=30' } },
+    );
+  }
+
   const db = getDb(env);
   const result = await db.execute(
     'SELECT id, title, category, alt, src, width, height, sort_order, created_at FROM photos WHERE is_active = 1 ORDER BY sort_order ASC, created_at DESC;',
@@ -29,6 +36,9 @@ export const onRequestGet = route<Env>(async ({ env }) => {
 
 export const onRequestPost = route<Env>(async ({ request, env }) => {
   await requireAdmin(request, env);
+  if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
+    throw new HttpError(503, 'Base de datos Turso no configurada en Cloudflare Pages.');
+  }
 
   const body = await readBody<Record<string, unknown>>(request);
   const title = str(body.title, 'title', { required: true, max: 120 });
@@ -58,6 +68,9 @@ export const onRequestPost = route<Env>(async ({ request, env }) => {
 
 export const onRequestDelete = route<Env>(async ({ request, env }) => {
   await requireAdmin(request, env);
+  if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
+    throw new HttpError(503, 'Base de datos Turso no configurada en Cloudflare Pages.');
+  }
 
   let id = new URL(request.url).searchParams.get('id') || '';
   if (id) {
