@@ -1,37 +1,62 @@
 import { requireAdmin } from '../_shared/auth';
 import { getDb, HttpError, json, num, readBody, route, str, type Env } from '../_shared/turso';
+import { DEFAULT_PHOTOS } from './default';
 
 const CATEGORIES = new Set(['bodas', 'corp', 'producto', 'eventos', 'retratos', 'video']);
 
 export const onRequestGet = route<Env>(async ({ env }) => {
   if (!env.TURSO_URL || !env.TURSO_AUTH_TOKEN) {
     return json(
-      { ok: true, photos: [] },
-      { headers: { 'cache-control': 'public, max-age=30' } },
+      { ok: true, photos: DEFAULT_PHOTOS },
+      { headers: { 'cache-control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' } },
     );
   }
 
-  const db = getDb(env);
-  const result = await db.execute(
-    'SELECT id, title, category, alt, src, width, height, sort_order, created_at FROM photos WHERE is_active = 1 ORDER BY sort_order ASC, created_at DESC;',
-  );
+  try {
+    const db = getDb(env);
+    const result = await db.execute(
+      'SELECT id, title, category, alt, src, width, height, sort_order, created_at FROM photos WHERE is_active = 1 ORDER BY sort_order ASC, created_at DESC;',
+    );
 
-  const photos = result.rows.map((row) => ({
-    id: String(row.id),
-    title: String(row.title),
-    category: String(row.category),
-    alt: row.alt == null ? '' : String(row.alt),
-    src: String(row.src),
-    width: row.width == null ? null : Number(row.width),
-    height: row.height == null ? null : Number(row.height),
-    sort_order: Number(row.sort_order) || 0,
-    created_at: row.created_at == null ? '' : String(row.created_at),
-  }));
+    if (result.rows.length === 0) {
+      try {
+        const statements = DEFAULT_PHOTOS.map((p) => ({
+          sql: 'INSERT OR IGNORE INTO photos (id, title, category, alt, src, width, height, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1);',
+          args: [p.id, p.title, p.category, p.alt, p.src, p.width, p.height, p.sort_order],
+        }));
+        await db.batch(statements, 'write');
+      } catch (seedErr) {
+        console.warn('Auto-seed warning:', seedErr);
+      }
+      return json(
+        { ok: true, photos: DEFAULT_PHOTOS },
+        { headers: { 'cache-control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' } },
+      );
+    }
 
-  return json(
-    { ok: true, photos },
-    { headers: { 'cache-control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' } },
-  );
+    const photos = result.rows.map((row) => ({
+      id: String(row.id),
+      title: String(row.title),
+      category: String(row.category),
+      alt: row.alt == null ? '' : String(row.alt),
+      src: String(row.src),
+      width: row.width == null ? null : Number(row.width),
+      height: row.height == null ? null : Number(row.height),
+      sort_order: Number(row.sort_order) || 0,
+      created_at: row.created_at == null ? '' : String(row.created_at),
+    }));
+
+    return json(
+      { ok: true, photos },
+      { headers: { 'cache-control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' } },
+    );
+  } catch (err) {
+    console.error('Turso query error, falling back to default photos:', err);
+    return json(
+      { ok: true, photos: DEFAULT_PHOTOS },
+      { headers: { 'cache-control': 'public, max-age=30' } },
+    );
+  }
 });
 
 export const onRequestPost = route<Env>(async ({ request, env }) => {
@@ -47,7 +72,7 @@ export const onRequestPost = route<Env>(async ({ request, env }) => {
 
   const alt = str(body.alt, 'alt', { max: 180 }) || title;
   const src = str(body.src, 'src', { required: true });
-  if (!/^(data:image\/|https?:\/\/)/i.test(src)) throw new HttpError(400, 'src debe ser una imagen válida.');
+  if (!/^(data:image\/|https?:\/\/|\/assets\/|\/|\.\/)/i.test(src)) throw new HttpError(400, 'src debe ser una imagen válida.');
 
   const width = num(body.width, 'width', { integer: true, min: 1, max: 20000 });
   const height = num(body.height, 'height', { integer: true, min: 1, max: 20000 });

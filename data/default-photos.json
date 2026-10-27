@@ -1,0 +1,252 @@
+[
+  {
+    "id": "arbol",
+    "title": "Atardecer sobre el agua",
+    "category": "bodas",
+    "alt": "Atardecer con un árbol en silueta sobre el agua y un sol naranja entre las nubes",
+    "src": "/assets/photos/arbol.webp",
+    "width": 1280,
+    "height": 1600,
+    "sort_order": 1
+  },
+  {
+    "id": "video-manuel-gual",
+    "title": "Buque Manuel Gual",
+    "category": "video",
+    "alt": "Fotograma del video del buque Manuel Gual en el muelle",
+    "src": "/assets/photos/video-manuel-gual.webp",
+    "width": 640,
+    "height": 360,
+    "sort_order": 2
+  },
+  {
+    "id": "cojedes6",
+    "title": "Primer sol",
+    "category": "bodas",
+    "alt": "Amanecer sobre montañas con neblina y el sol bajo en el horizonte",
+    "src": "/assets/photos/cojedes6.webp",
+    "width": 2200,
+    "height": 1467,
+    "sort_order": 3
+  },
+  {
+    "id": "copey",
+    "title": "Mirando el valle",
+    "category": "retratos",
+    "alt": "Mujer de espaldas mirando un valle cubierto de nubes al atardecer",
+    "src": "/assets/photos/copey.webp",
+    "width": 1067,
+    "height": 1600,
+    "sort_order": 4
+  },
+  {
+    "id": "cruz4",
+    "title": "Cruz al atardecer",
+    "category": "bodas",
+    "alt": "Cruz iluminada en una colina bajo un cielo naranja, con la ciudad a oscuras debajo",
+    "src": "/assets/photos/cruz4.webp",
+    "width": 1600,
+    "height": 1280,
+    "sort_order": 5
+  },
+  {
+    "id": "vigirima10",
+    "title": "En la cima",
+    "category": "eventos",
+    "alt": "Excursionista de pie sobre una roca, con montañas y el mar al fondo",
+    "src": "/assets/photos/vigirima10.webp",
+    "width": 1280,
+    "height": 1600,
+    "sort_order": 6
+  },
+  {
+    "id": "montalban",
+    "title": "Neblina",
+    "category": "eventos",
+    "alt": "Valle con neblina y cerros a contraluz al amanecer",
+    "src": "/assets/photos/montalban.webp",
+    "width": 2200,
+    "height": 1238,
+    "sort_order": 7
+  },
+  {
+    "id": "dionisio",
+    "title": "Sobre la roca",
+    "category": "retratos",
+    "alt": "Silueta de una persona sobre una roca frente a un mar de nubes",
+    "src": "/assets/photos/dionisio.webp",
+    "width": 759,
+    "height": 1350,
+    "sort_order": 8
+  },
+  {
+    "id": "kairoy15",
+    "title": "Hora azul",
+    "category": "bodas",
+    "alt": "Hora azul con un resplandor naranja en el horizonte y las luces de una ciudad",
+    "src": "/assets/photos/kairoy15.webp",
+    "width": 2200,
+    "height": 1467,
+    "sort_order": 9
+  },
+  {
+    "id": "juancho",
+    "title": "Laguna de montaña",
+    "category": "eventos",
+    "alt": "Persona con chaqueta amarilla sobre una roca junto a una laguna de montaña",
+    "src": "/assets/photos/juancho.webp",
+    "width": 759,
+    "height": 1350,
+    "sort_order": 10
+  },
+  {
+    "id": "naiguata3",
+    "title": "Sobre las nubes",
+    "category": "eventos",
+    "alt": "Sol entre nubes naranjas sobre un mar de nubes oscuras",
+    "src": "/assets/photos/naiguata3.webp",
+    "width": 1238,
+    "height": 2200,
+    "sort_order": 11
+  },
+  {
+    "id": "catcher",
+    "title": "Receptor",
+    "category": "corp",
+    "alt": "Receptor de béisbol con máscara y protecciones lanzando la pelota frente a una pared oscura",
+    "src": "/assets/photos/catcher.webp",
+    "width": 1280,
+    "height": 1600,
+    "sort_order": 12
+  },
+  {
+    "id": "cojedes2",
+    "title": "El último naranja",
+    "category": "bodas",
+    "alt": "Sol poniéndose entre capas de montañas azuladas",
+    "src": "/assets/photos/cojedes2.webp",
+    "width": 1467,
+    "height": 2200,
+    "sort_order": 13
+  },
+  {
+    "id": "guacamaya",
+    "title": "Dentro de la cueva",
+    "category": "eventos",
+    "alt": "Persona dentro de una cueva de formaciones rocosas, con un rayo de luz que entra desde arriba",
+    "src": "/assets/photos/guacamaya.webp",
+    "width": 900,
+    "height": 1600,
+    "sort_order": 14
+  },
+  {
+    "id": "cruz6",
+    "title": "Noche",
+    "category": "bodas",
+    "alt": "Cruz iluminada sobre una colina con las luces de la ciudad al anochecer",
+    "src": "/assets/photos/cruz6.webp",
+    "width": 2200,
+    "height": 1760,
+    "sort_order": 15
+  },
+  {
+    "id": "maco",
+    "title": "Fotógrafo en ruta",
+    "category": "retratos",
+    "alt": "Fotógrafo con mochila y cámara, de perfil, con montañas al fondo",
+    "src": "/assets/photos/maco.webp",
+    "width": 900,
+    "height": 1600,
+    "sort_order": 16
+  },
+  {
+    "id": "kairoy5",
+    "title": "Cumbres",
+    "category": "corp",
+    "alt": "Colinas verdes con una cruz y una antena al atardecer",
+    "src": "/assets/photos/kairoy5.webp",
+    "width": 1760,
+    "height": 2200,
+    "sort_order": 17
+  },
+  {
+    "id": "red",
+    "title": "La red",
+    "category": "producto",
+    "alt": "Silueta de una persona lanzando una red de pesca sobre el agua al atardecer",
+    "src": "/assets/photos/red.webp",
+    "width": 1280,
+    "height": 1600,
+    "sort_order": 18
+  },
+  {
+    "id": "naiguata1",
+    "title": "La escala humana",
+    "category": "retratos",
+    "alt": "Silueta de un fotógrafo sobre una cima, frente a un mar de nubes al atardecer",
+    "src": "/assets/photos/naiguata1.webp",
+    "width": 1237,
+    "height": 2200,
+    "sort_order": 19
+  },
+  {
+    "id": "cumbre",
+    "title": "Cumbre y nubes",
+    "category": "corp",
+    "alt": "Montañas en silueta sobre un mar de nubes, con una figura diminuta en la cumbre",
+    "src": "/assets/photos/cumbre.webp",
+    "width": 1080,
+    "height": 607,
+    "sort_order": 20
+  },
+  {
+    "id": "vigirima26",
+    "title": "Subiendo",
+    "category": "eventos",
+    "alt": "Excursionista subiendo una montaña de laderas verdes",
+    "src": "/assets/photos/vigirima26.webp",
+    "width": 1080,
+    "height": 1350,
+    "sort_order": 21
+  },
+  {
+    "id": "cruzsol",
+    "title": "Contraluz",
+    "category": "producto",
+    "alt": "Cruz metálica a contraluz con el sol y nubes al fondo",
+    "src": "/assets/photos/cruzsol.webp",
+    "width": 1238,
+    "height": 2200,
+    "sort_order": 22
+  },
+  {
+    "id": "solo9",
+    "title": "Hacia arriba",
+    "category": "retratos",
+    "alt": "Hombre haciendo una dominada desde abajo, entre árboles altos que apuntan al cielo",
+    "src": "/assets/photos/solo9.webp",
+    "width": 759,
+    "height": 1350,
+    "sort_order": 23
+  },
+  {
+    "id": "codazzi",
+    "title": "Entre la niebla",
+    "category": "retratos",
+    "alt": "Hombre con chaqueta entre la vegetación y la neblina",
+    "src": "/assets/photos/codazzi.webp",
+    "width": 1066,
+    "height": 1600,
+    "sort_order": 24
+  },
+  {
+    "id": "kairoy1",
+    "title": "Silueta al atardecer",
+    "category": "retratos",
+    "alt": "Silueta de un hombre de pie frente al horizonte naranja del atardecer",
+    "src": "/assets/photos/kairoy1.webp",
+    "width": 1280,
+    "height": 1600,
+    "sort_order": 25
+  }
+]

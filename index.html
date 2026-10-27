@@ -950,7 +950,7 @@ lbI.addEventListener('pointercancel',()=>{sx=sy=null});
     data.photos.forEach(p=>{
       if(!p||typeof p.id!=='string'||!p.id||seen.has(p.id))return;
       if(typeof p.title!=='string'||!p.title.trim()||!CAT_LABEL[p.category])return;
-      if(typeof p.src!=='string'||(!/^data:image\//i.test(p.src)&&!/^https?:\/\//i.test(p.src)))return;
+      if(typeof p.src!=='string'||(!p.src.startsWith('/')&&!p.src.startsWith('./')&&!/^data:image\//i.test(p.src)&&!/^https?:\/\//i.test(p.src)))return;
       const li=document.createElement('li');
       li.dataset.id=p.id;li.dataset.cat=p.category;li.dataset.t=p.title;
       li.hidden=!(active==='all'||active===p.category);
